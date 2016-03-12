@@ -106,14 +106,14 @@ void insert_block(meta_data * current,int size) {
 
 meta_data * find_free_block(size_t size) {
     
-	meta_data * current=base_ptr;
-	while(current) {
-        if ( current->size >= size && current->free==1 ) {
-			int current_size =current->size;
-			current->size =size;
-            current->free =0;
-        	insert_block(current,current_size -size);    
-			return current+1;
+   meta_data * current=base_ptr;
+   while(current) {
+   if ( current->size >= size && current->free==1 ) {
+         int current_size =current->size;
+	     current->size =size;
+         current->free =0;
+         insert_block(current,current_size -size);    
+	     return current+1;
         }
         current =current->next;
     }
@@ -134,7 +134,7 @@ void * mem_alloc(int size) {
         base_ptr->free =0;
         base_ptr->next =NULL;
         size_allocated_till_now = size_allocated_till_now+ size + META_DATA_SIZE;
-		last = base_ptr;
+        last = base_ptr;
         return base_ptr+1;
     }
     if (size_allocated_till_now + size + META_DATA_SIZE < max_size_allocated) {
@@ -143,10 +143,10 @@ void * mem_alloc(int size) {
         current->size = size;
         current->free =0;
         size_allocated_till_now = size_allocated_till_now + size + META_DATA_SIZE;
-		current->next =NULL;
-		last->next =current;
-		last = current;
-		return current+1;
+        current->next =NULL;
+        last->next =current;
+        last = current;
+        return current+1;
     }
 
     return (void *)find_free_block(size);
@@ -174,7 +174,7 @@ meta_data * get_meta_data(void * ptr) {
 int mem_free(void *ptr) {
     meta_data * cur_ptr = get_meta_data(ptr);
     cur_ptr->free =1;
-	merge_blocks();
+    merge_blocks();
     return 1;
 }
 
@@ -184,17 +184,17 @@ int mem_free(void *ptr) {
  * */
 
 int main(){
-	int sizeOfRegion;
-	scanf("%d",&sizeOfRegion);
+    int sizeOfRegion;
+    scanf("%d",&sizeOfRegion);
     if(mem_init(sizeOfRegion)!=-1) {
         for(int i=1;i<20;i++) {
-	  		int random_value = rand()%sizeOfRegion +1; 
+	    int random_value = rand()%sizeOfRegion +1; 
             char * str1=(char *)mem_alloc(random_value*sizeof(char));
             if(str1!=NULL) {
                 printf("Allocated memory for : %d\n",random_value);
-				if(i%2==0) {
-                    mem_free(str1);
-					printf("Freed memory for %d\n",random_value);
+	        if(i%2==0) {
+                   mem_free(str1);
+		   printf("Freed memory for %d\n",random_value);
                 }
             }
             else {
