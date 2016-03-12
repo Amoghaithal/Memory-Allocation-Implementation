@@ -29,9 +29,8 @@
 typedef struct meta_data {
 
     size_t size;             // indicates the size of the memory allocated .     
-    struct meta_data *next; // here I am using linked list , you are free to use any data structure.
+    struct meta_data *next; // here I am using linked list.
     int free;                // Indicates this memory is free . Instead of really freeing the memory, we can just overwrite them if free is 1.
-    // many more if req.
 
 } meta_data;
 
@@ -51,20 +50,14 @@ meta_data * base_ptr = NULL;
 
 /* 
  * ==============================================================================
- * This function is called by the process that uses the mem_alloc. There wont be any main() 
- * function defined for this library .Since if you define a main any program/process cannot 
- *  use your functions, because they will become two different processes. You have to 
- *  link this library to the process. This we will see it later.
+ * This function is called by the process that uses the mem_alloc.  
  *
- *
- *  Mem_Init is called only once by a process using your routines. sizeOfRegion is the number
+ *  Mem_Init is called only once by a process. sizeOfRegion is the number
  *  of bytes that you should request from the OS using mmap.
  *
  *  for mmap prototype please  see man mmap
  *
- *  And you have to use only this memory for all internal purposes i.e. you cannot use malloc 
- *  in this library.Also you cannot use global array , you can use global structure pointer to head
- *  of free list.
+ * 
  *
  * ================================================================================
  * */
@@ -138,13 +131,13 @@ int mem_init(int sizeOfRegion);
   * ==================================================================================
   * */
 
- void add_blocks (struct meta_data ** first);
+ void merge_blocks (void);
 
 
 /*
  * ==================================================================================
  *
- * These we can see later. They have to just use mem_alloc.
+ * They have to just use mem_alloc.
  *
  * ==================================================================================
  * */
