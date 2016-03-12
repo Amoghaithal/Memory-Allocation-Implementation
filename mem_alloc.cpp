@@ -110,10 +110,10 @@ meta_data * find_free_block(size_t size) {
    while(current) {
    if ( current->size >= size && current->free==1 ) {
          int current_size =current->size;
-	     current->size =size;
+	 current->size =size;
          current->free =0;
          insert_block(current,current_size -size);    
-	     return current+1;
+	 return current+1;
         }
         current =current->next;
     }
